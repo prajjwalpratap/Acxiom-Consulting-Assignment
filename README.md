@@ -1,4 +1,4 @@
-# Acxiom-Consulting-Assignme
+# Acxiom-Consulting-Assignment
 
 To enter detail  just type the placeholder value in it
 
