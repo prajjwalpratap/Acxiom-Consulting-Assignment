@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container,
+        .signup-container,
+        .dashboard-container,
+        .module-login,
+        .vendor-dashboard,
+        .user-dashboard {
+            background: linear-gradient(to bottom, #d6e9f8, #c8d7dc);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            width: 400px;
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        h2 {
+            text-align: center;
+            background: #a3cce8;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        label {
+            width: 40%;
+            background-color: #0b5ed7;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        input,
+        select {
+            width: 55%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #a3cce8;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #666;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .module-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .module-buttons button,
+        .vendor-dashboard button,
+        .user-dashboard button {
+            width: 100%;
+            background: #0b5ed7;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container active" id="loginPage">
+        <h2>Event Management System</h2>
+        <div class="form-group">
+            <label for="userId">User Id</label>
+            <input type="text" id="userId" placeholder="Admin" />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Admin" />
+        </div>
+        <div class="form-actions">
+            <button onclick="resetLogin()">Cancel</button>
+            <button onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <div class="signup-container" id="signupPage">
+        <h2>Event Management System</h2>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Vendor" />
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Vendor" />
+        </div>
+        <div class="form-group">
+            <label for="signPassword">Password</label>
+            <input type="password" id="signPassword" placeholder="Vendor" />
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category">
+                <option value="">Select</option>
+                <option value="Catering">Catering</option>
+                <option value="Florist">Florist</option>
+                <option value="Decoration">Decoration</option>
+                <option value="Lighting">Lighting</option>
+            </select>
+        </div>
+        <div class="form-actions">
+            <button onclick="signup()">Sign Up</button>
+        </div>
+    </div>
+
+    <div class="dashboard-container" id="dashboard">
+        <h2>Welcome to Dashboard</h2>
+        <div class="module-buttons">
+            <button onclick="showModuleLogin('vendorLogin')">Vendor</button>
+            <button onclick="showModuleLogin('adminLogin')">Admin</button>
+            <button onclick="showModuleLogin('userLogin')">User</button>
+        </div>
+    </div>
+
+    <div class="module-login" id="vendorLogin">
+        <h2>Vendor Login</h2>
+        <div class="form-group">
+            <label for="vendorUser">Username</label>
+            <input type="text" id="vendorUser" />
+        </div>
+        <div class="form-group">
+            <label for="vendorPass">Password</label>
+            <input type="password" id="vendorPass" />
+        </div>
+        <div class="form-actions">
+            <button onclick="showPage('dashboard')">Cancel</button>
+            <button onclick="storeAndOpen('vendorUser', 'vendorPass', 'Vendor')">Login</button>
+        </div>
+
+        
+    </div>
+
+    <div class="module-login" id="adminLogin">
+        <h2>Admin Login</h2>
+        <div class="form-group">
+            <label for="adminUser">Username</label>
+            <input type="text" id="adminUser" />
+        </div>
+        <div class="form-group">
+            <label for="adminPass">Password</label>
+            <input type="password" id="adminPass" />
+        </div>
+        <div class="form-actions">
+            <button onclick="showPage('dashboard')">Cancel</button>
+            <button onclick="storeAndOpen('adminUser', 'adminPass', 'Admin')">Login</button>
+        </div>
+    </div>
+
+    <div class="module-login" id="userLogin">
+        <h2>User Login</h2>
+        <div class="form-group">
+            <label for="userUser">Username</label>
+            <input type="text" id="userUser" />
+        </div>
+        <div class="form-group">
+            <label for="userPass">Password</label>
+            <input type="password" id="userPass" />
+        </div>
+        <div class="form-actions">
+            <button onclick="showPage('dashboard')">Cancel</button>
+            <button onclick="storeAndOpen('userUser', 'userPass', 'User')">Login</button>
+        </div>
+    </div>
+
+    <div class="vendor-dashboard" id="vendorDashboard">
+        <h2>Vendor Dashboard</h2>
+        <button>Your Items</button>
+        <button>Add New Item</button>
+        <button>Transaction</button>
+        <button onclick="showPage('dashboard')">Previous</button>
+    </div>
+
+    <div class="user-dashboard" id="userDashboard">
+        <h2>User Dashboard</h2>
+        <button>Vendor</button>
+        <button onclick="alert('Proceeding to Payment...')">Cart</button>
+        <button onclick="alert('Total Amount Calculated')">Payment</button>
+        <button onclick="alert('Amount: ₹XXXX')">Total Amount</button>
+        <button onclick="alert('Transaction Canceled')">Cancel</button>
+        <button onclick="alert('Guest List Updated')">Guest List</button>
+        <button onclick="alert('Guest Deleted')">Delete</button>
+        <button onclick="alert('Guest Updated')">Update</button>
+        <button onclick="alert('Checking Order Status...')">Order Status</button>
+        <button onclick="alert('Status: Confirmed / Pending / Shipped')">Check Status</button>
+        <button onclick="showPage('dashboard')">Previous</button>
+    </div>
+
+<div class="vendor-dashboard" id="adminDashboard">
+    <h2>Admin Dashboard</h2>
+    <button onclick="alert('Opening Membership Module...')">Add/Update Memberships</button>
+    <button onclick="alert('Opening User and Vendor Update Module...')">Add/Update User, Vendor</button>
+    <button onclick="alert('Opening Users Management...')">Users Management</button>
+    <button onclick="alert('Opening Vendor Management...')">Vendor Management</button>
+    <button onclick="alert('Adding Membership for Vendor...')">Add Membership for Vendor</button>
+    <button onclick="alert('Updating Membership for Vendor...')">Update Membership for Vendor</button>
+    <button onclick="showPage('dashboard')">Previous</button>
+</div>
+
+
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.login-container, .signup-container, .dashboard-container, .module-login, .vendor-dashboard, .user-dashboard')
+                .forEach(el => el.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function login() {
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            if (userId.toLowerCase() === 'admin' && password.toLowerCase() === 'admin') {
+                alert('Login Successful');
+                showPage('dashboard');
+            } else {
+                alert('Invalid credentials');
+            }
+        }
+
+        function resetLogin() {
+            document.getElementById('userId').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function signup() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('signPassword').value;
+            const category = document.getElementById('category').value;
+            if (!name || !email || !password || !category) {
+                alert('Please fill out all fields.');
+            } else {
+                alert('Vendor Registered Successfully');
+                showPage('dashboard');
+            }
+        }
+
+        function showModuleLogin(moduleId) {
+            showPage(moduleId);
+        }
+
+        function storeAndOpen(userIdField, passField, role) {
+            const username = document.getElementById(userIdField).value;
+            const password = document.getElementById(passField).value;
+            if (username && password) {
+                localStorage.setItem(role + 'User', username);
+                localStorage.setItem(role + 'Pass', password);
+                alert(`${role} Dashboard Opened for ${username}`);
+                if (role === 'Vendor') {
+                    showPage('vendorDashboard');
+                } else if (role === 'User') {
+                    showPage('userDashboard');
+                } else if (role === 'Admin') {
+                    showPage('adminDashboard');
+                }
+
+            } else {
+                alert('Please enter username and password.');
+            }
+        }
+    </script>
+</body>
+
+</html>
